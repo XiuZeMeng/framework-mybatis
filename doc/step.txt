@@ -1,0 +1,38 @@
+一、开发前准备
+    1、新建表：t_user
+    2、添加依赖：
+        1）、mybatis
+        2）、mysql-connector-java
+二、参考官方文档，新建Mybatis全局配置文件（主配置文件）mybatis-config.xml
+    1、拷贝mybatis-3-config.dtd约束(在无网络情况下可去官网下载好对应dtd文件，通过XML Catalog配置)
+    2、环境配置
+        1）、事务管理器配置
+        2）、数据源配置
+    3、关联映射文件mapper.xml
+三、mapper.xml映射文件编写
+    1、拷贝mybatis-3-mapper.dtd约束
+    2、编写mapper + namespace
+    3、编写对应的SQL语句
+四、编写测试类AppTest
+    1、前提：操作mybatis，需要一个连接对象SqlSession（会话）
+    2、如何构建SqlSession？ 逆向推到:SqlSession <- SqlSessionFactory <- SqlSessionFactoryBuilder <- 通过流对象InputStream创建 <- 读取mybatis-config.xml文件获取流对象
+        1）、这里需要注意的是：IDEA的Maven是不会编译src的java目录的xml文件，所以在Mybatis的配置文件中找不到xml文件！
+            解决方案：①不将xml放到src目录下面，将xxxMapper.xml放到Maven构建的resource目录下面！
+                     ②在Maven的pom文件中，添加下面代码： <build>
+                                                          <resources>
+                                                              <resource>
+                                                                  <directory>src/main/java</directory>
+                                                                  <includes>
+                                                                      <include>**/*.xml</include>
+                                                                  </includes>
+                                                              </resource>
+                                                          </resources>
+                                                       </build>
+        2）、连接数据源DataSource时：
+            ①、如果MySQL的驱动包为8以上的，driver的value值为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver，
+                日志显示说该类已弃用（This is deprecated），可到jar包查询该类，无惨构造器会抛出SQLException异常，并打印相关信息。
+            ②、系统时区的错误，可通过 show VARIABLES like "%time_zone%" 查看，默认为SYSTEM。
+                解决方案：1、url的value值后面加上参数serverTimezone=GMT；
+                           2、设置mysql的时区：MySQL默认的时区是UTC时区
+                                            （1）永久的修改：修改mysql的配置文件，添加：default-time-zone='+08:00'，重启mysql生效
+                                            （2）临时的修改：执行mysql命令 set global time_zone='+08:00'，立即生效，重启mysql后失效

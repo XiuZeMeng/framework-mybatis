@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 不同的mapper文件namespace是不同的-->
+<mapper namespace="com.mxz.mybatis.mapper.UserMapper">
+
+    <!--
+        select元素：专门用来做写查询的SQL
+        id属性：做唯一标识，用来表示某一天SQL语句
+            id属性和mapper的namespace唯一的表示了应用中的某一条SQL语句
+        parameterType属性：表示执行该SQL语句需要的参数的类型，建议不写， MyBatis 可以通过类型处理器（TypeHandler） 推断出来
+        resultType属性：把结果集中的每一行数据封装成什么类型的对象
+    -->
+    <select id="get" parameterType="java.lang.Long" resultType="com.mxz.mybatis.domain.User">
+        select id, name, salary from t_user where id = #{id}
+    </select>
+
+    <select id="ListAll" resultType="com.mxz.mybatis.domain.User">
+        select id, name, salary from t_user
+    </select>
+
+</mapper>
