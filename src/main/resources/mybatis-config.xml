@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    
+    <settings>
+        <!-- 日志框架配置 -->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+
     <!-- 环境配置 -->
     <environments default="dev">
         <!-- 开发环境-->

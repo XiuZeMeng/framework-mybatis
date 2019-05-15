@@ -36,3 +36,11 @@
                            2、设置mysql的时区：MySQL默认的时区是UTC时区
                                             （1）永久的修改：修改mysql的配置文件，添加：default-time-zone='+08:00'，重启mysql生效
                                             （2）临时的修改：执行mysql命令 set global time_zone='+08:00'，立即生效，重启mysql后失效
+五、日志框架（Log4j）配置，参考Mybatis文档
+    1、Log4j 根配置语法（全局配置）
+        log4j.rootLogger=[level], appenderName, appenderName, …
+        把指定级别以上的日志信息输出到指定的一个或者多个位置，level：ERROR > WARN > INFO > DEBUG > TRACE
+    2、针对不同包、类、方法的日志个性化配置（自定义配置）
+        log4j.logger.+包、类、方法名=[level]
+    3、日志输出目的地及格式配置
+        log4j.appender.+

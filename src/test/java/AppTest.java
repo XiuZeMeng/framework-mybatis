@@ -3,6 +3,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Test;
 
 
@@ -57,4 +58,35 @@ public class AppTest {
             System.out.println(user);
         }
     }
+
+    private static Logger log = Logger.getLogger(AppTest.class);
+
+    @Test
+    void testLog(){
+        // 如果日志级别是INFO，则输出
+        if (log.isInfoEnabled()){
+            log.info("银行转账操作");
+        }
+
+        if (log.isDebugEnabled()){
+            log.debug("查询数据库");
+        }
+
+        if (log.isTraceEnabled()){
+            log.trace("连接数据库");
+        }
+
+        if (log.isTraceEnabled()){
+            log.trace("执行SQL");
+        }
+
+        if (log.isDebugEnabled()){
+            log.debug("转账...");
+        }
+
+        if (log.isInfoEnabled()){
+            log.info("银行转账成功");
+        }
+    }
+
 }
