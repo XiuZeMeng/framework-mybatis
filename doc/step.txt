@@ -44,3 +44,14 @@
         log4j.logger.+包、类、方法名=[level]
     3、日志输出目的地及格式配置
         log4j.appender.+
+六、OGNL表达式
+    1、OGNL是Object-Graph Navigation Language的缩写，对象图导航语言
+    2、OGNL语法：#{}
+    3、如果当前上下文对象是JavaBean对象，#{X}中的X为属性名称
+       如果当前上下文对象是Map对象，#{X}中的X为Map中的key
+       如果当前上下文对象是简单类型对象（基本类型+String），#{X}中的X可为任意内容，因为mybatis可以自动判断出来
+七、抽取MyBatisUtil，减少重复代码（主要是创建SqlSession的代码重复）
+    抽取创建SqlSession的代码需要注意：作用域（Scope）和生命周期 -> 不同作用域和生命周期类是至关重要的，因为错误的使用会导致非常严重的并发问题。
+    1、SqlSessionFactoryBuilder：这个类可以被实例化、使用和丢弃，一旦创建了 SqlSessionFactory，就不再需要它了
+    2、SqlSessionFactory：一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例
+    3、SqlSession：每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。
