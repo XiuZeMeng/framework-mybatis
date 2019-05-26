@@ -21,4 +21,41 @@
         select id, name, salary from t_user
     </select>
 
+    <!-- 修改操作-->
+    <update id="update">
+        update t_user set name = #{name}, salary = #{salary} where id = #{id}
+    </update>
+
+    <!-- 删除操作 -->
+    <delete id="delete">
+        delete from t_user where id = #{id}
+    </delete>
+
+    <!--
+        新增操作
+        insert元素：
+            useGeneratedKeys属性：是否需要返回自动生成的主键
+            keyProperty属性：把自动生成的主键值设置到对象的哪个属性上
+    -->
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user (name, salary) values (#{name}, #{salary})
+    </insert>
+
+    <!-- 测试实体类别名 -->
+    <select id="testAlias" resultType="User">
+        select id, name, salary from t_user where id = #{id}
+    </select>
+
+    <!-- 测试系统自带别名-->
+    <select id="queryForCount" resultType="int">
+        select count(1) from t_user
+    </select>
+
+    <select id="testMap1" resultType="map">
+        select id, name from t_user where id = #{id}
+    </select>
+    <select id="testMap2" resultType="User">
+        select id, name from t_user where id = #{id}
+    </select>
+
 </mapper>

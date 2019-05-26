@@ -9,6 +9,13 @@
         <setting name="logImpl" value="LOG4J"/>
     </settings>
 
+    <!-- 类型别名-->
+    <typeAliases>
+        <typeAlias alias="User" type="com.mxz.mybatis.domain.User"/>
+        
+        <package name="com.mxz.mybatis.domain"/>
+    </typeAliases>
+
     <!-- 环境配置 -->
     <environments default="dev">
         <!-- 开发环境-->

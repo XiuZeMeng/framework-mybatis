@@ -44,7 +44,7 @@
         log4j.logger.+包、类、方法名=[level]
     3、日志输出目的地及格式配置
         log4j.appender.+
-六、OGNL表达式
+六、OGNL表达式(Mapper中的parameterType可以不写，Mybatis可以推断出)
     1、OGNL是Object-Graph Navigation Language的缩写，对象图导航语言
     2、OGNL语法：#{}
     3、如果当前上下文对象是JavaBean对象，#{X}中的X为属性名称
@@ -55,3 +55,23 @@
     1、SqlSessionFactoryBuilder：这个类可以被实例化、使用和丢弃，一旦创建了 SqlSessionFactory，就不再需要它了
     2、SqlSessionFactory：一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例
     3、SqlSession：每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。
+八、测试update、delete、insert操作
+    1、创建UpdateTest测试类，编写相应SQL
+九、Mybatis的typeAlias配置（用来减少类完全限定名的冗余）
+    1、自定义别名
+        1）、对于某一个类设置别名，在全局配置文件中设置：
+            <typeAliases>
+                <typeAlias alias="User" type="com.mxz.mybatis.domain.User"/>
+            </typeAliases>
+        2）、对于某一个包下的所有类设置别名：（默认的别名是简单类名首字母小写，但其实Mybatis的别名是不区分大小写的）
+            <typeAliases>
+                <package name="com.mxz.mybatis.domain"/>
+            </typeAliases>
+        3）、注解设置别名（可用于解决已经为某个包下类设置别名的，但有不同子包同类名的情况，自定义别名）
+            @Alias("User")
+    2、系统自带别名
+        如：
+            别名	    映射的类型
+            _byte	    byte
+            _int	    int
+            int	        Integer
