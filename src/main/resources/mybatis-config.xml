@@ -3,6 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+    <!-- 属性配置
+        1、通过mybatis-config.xml中配置properties 元素的子元素来传递
+        -->
+<!--    <properties>-->
+<!--        <property name="jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>-->
+<!--        <property name="jdbc.url" value="jdbc:mysql://localhost:3306/mybatis?serverTimezone=GMT"/>-->
+<!--        <property name="jdbc.username" value="root"/>-->
+<!--        <property name="jdbc.password" value="123456"/>-->
+<!--    </properties>-->
+
+    <!-- 2、通过引入外部文件进行加载-->
+    <properties resource="db.properties"/>
     
     <settings>
         <!-- 日志框架配置 -->
@@ -25,10 +38,10 @@
             <transactionManager type="JDBC"/>
             <!-- 数据源 -->
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?serverTimezone=GMT"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>
@@ -36,5 +49,6 @@
     <!-- 关联映射文件-->
     <mappers>
         <mapper resource="com/mxz/mybatis/mapper/UserMapper.xml"/>
+        <mapper resource="com/mxz/mybatis/mapper/UserNewMapper.xml"/>
     </mappers>
 </configuration>

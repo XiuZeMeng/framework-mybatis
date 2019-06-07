@@ -75,3 +75,10 @@
             _byte	    byte
             _int	    int
             int	        Integer
+十、Mybatis的properties属性配置
+    1、通过mybatis-config.xml中配置properties 元素的子元素来传递
+    2、通过mybatis-config.xml中引入外部文件进行加载
+十一、Mybatis的resultMap配置（解决结果集的列名（表字段名）和对象属性名不匹配问题）
+    1、新建表t_user_new，字段分别为u_id，u_name，u_salary
+    2、新建UserNewMapper.xml文件，并添加到mybatis-config.xml的mappers元素中
+    3、新建ResultMap测试类

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mxz.mybatis.mapper.UserNewMapper">
+
+    <!--
+        亟待解决的问题：结果集（表）中的列名和对象中的属性名不匹配。
+        解决方案：使用ResultMap元素
+            id属性：当前Mapper文件中的ResultMap的唯一名称
+            type属性：把结果集中的每一个数据封装成什么类型的对象
+            子元素：
+            result元素：匹配对象中的哪一个属性对应表中的哪一个列
+            id元素：功能和result元素一样，如果是主键，建议使用id元素，提升性能
+    -->
+    <resultMap id="BaseResultMap" type="User">
+        <id column="u_id" property="id"/>
+        <result column="u_name" property="name"/>
+        <result column="u_salary" property="salary"/>
+    </resultMap>
+
+    <select id="testSelectOne" resultType="User">
+        select u_id, u_name, u_salary from t_user_new where u_id = #{id}
+    </select>
+
+    <!-- 使用别名解决表字段名和对象属性名不匹配问题 -->
+    <select id="testUseAlias" resultType="User">
+        select u_id as id, u_name as name, u_salary as salary from t_user_new where u_id = #{id}
+    </select>
+
+    <!-- 使用resultMap解决表字段名和对象属性名不匹配问题 -->
+    <select id="testUseResultMap" resultMap="BaseResultMap">
+        select u_id, u_name, u_salary from t_user_new where u_id = #{id}
+    </select>
+</mapper>
