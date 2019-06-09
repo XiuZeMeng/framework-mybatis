@@ -3,16 +3,19 @@
     2、添加依赖：
         1）、mybatis
         2）、mysql-connector-java
+
 二、参考官方文档，新建Mybatis全局配置文件（主配置文件）mybatis-config.xml
     1、拷贝mybatis-3-config.dtd约束(在无网络情况下可去官网下载好对应dtd文件，通过XML Catalog配置)
     2、环境配置
         1）、事务管理器配置
         2）、数据源配置
     3、关联映射文件mapper.xml
+
 三、mapper.xml映射文件编写
     1、拷贝mybatis-3-mapper.dtd约束
     2、编写mapper + namespace
     3、编写对应的SQL语句
+
 四、编写测试类AppTest
     1、前提：操作mybatis，需要一个连接对象SqlSession（会话）
     2、如何构建SqlSession？ 逆向推到:SqlSession <- SqlSessionFactory <- SqlSessionFactoryBuilder <- 通过流对象InputStream创建 <- 读取mybatis-config.xml文件获取流对象
@@ -36,6 +39,7 @@
                            2、设置mysql的时区：MySQL默认的时区是UTC时区
                                             （1）永久的修改：修改mysql的配置文件，添加：default-time-zone='+08:00'，重启mysql生效
                                             （2）临时的修改：执行mysql命令 set global time_zone='+08:00'，立即生效，重启mysql后失效
+
 五、日志框架（Log4j）配置，参考Mybatis文档
     1、Log4j 根配置语法（全局配置）
         log4j.rootLogger=[level], appenderName, appenderName, …
@@ -44,19 +48,23 @@
         log4j.logger.+包、类、方法名=[level]
     3、日志输出目的地及格式配置
         log4j.appender.+
+
 六、OGNL表达式(Mapper中的parameterType可以不写，Mybatis可以推断出)
     1、OGNL是Object-Graph Navigation Language的缩写，对象图导航语言
     2、OGNL语法：#{}
     3、如果当前上下文对象是JavaBean对象，#{X}中的X为属性名称
        如果当前上下文对象是Map对象，#{X}中的X为Map中的key
        如果当前上下文对象是简单类型对象（基本类型+String），#{X}中的X可为任意内容，因为mybatis可以自动判断出来
+
 七、抽取MyBatisUtil，减少重复代码（主要是创建SqlSession的代码重复）
     抽取创建SqlSession的代码需要注意：作用域（Scope）和生命周期 -> 不同作用域和生命周期类是至关重要的，因为错误的使用会导致非常严重的并发问题。
     1、SqlSessionFactoryBuilder：这个类可以被实例化、使用和丢弃，一旦创建了 SqlSessionFactory，就不再需要它了
     2、SqlSessionFactory：一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例
     3、SqlSession：每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。
+
 八、测试update、delete、insert操作
     1、创建UpdateTest测试类，编写相应SQL
+
 九、Mybatis的typeAlias配置（用来减少类完全限定名的冗余）
     1、自定义别名
         1）、对于某一个类设置别名，在全局配置文件中设置：
@@ -75,10 +83,29 @@
             _byte	    byte
             _int	    int
             int	        Integer
+
 十、Mybatis的properties属性配置
     1、通过mybatis-config.xml中配置properties 元素的子元素来传递
     2、通过mybatis-config.xml中引入外部文件进行加载
+
 十一、Mybatis的resultMap配置（解决结果集的列名（表字段名）和对象属性名不匹配问题）
     1、新建表t_user_new，字段分别为u_id，u_name，u_salary
     2、新建UserNewMapper.xml文件，并添加到mybatis-config.xml的mappers元素中
     3、新建ResultMap测试类
+
+十二、Mybatis的Mapper接口与原理
+    之前执行SQL的时候，是通过namespace+id的方式找到SQL，该方式存在几个问题：User user = session.selectOne("com.mxz.mybatis.mapper.UserMapper.get", 1L);
+        1、因为传入的是String类型的参数，所有可能会写错，而一旦写错只有在运行时才能发现
+        2、因为在SQLSession中传递的参数类型都是Object类型，所有传入的Mybatis需要的参数类型是不被检查的
+        3、每一个操作的代码模板其实是相同的（代码冗余）
+    解决方案：
+        使用Mapper接口，类似于DAO接口，在Mapper接口中去定义每一个操作方法。
+    1)新建表t_student
+    2)在mapper包中创建StudentMapper.xml文件，并添加到mybatis-config.xml的mappers元素中
+    3)在mapper包中创建StudentMapper interface接口
+        （Mapper组件：Mapper接口 + Mapper文件）
+        （Mapper接口和Mapper文件，应该放到同一个包中）
+        （Mapper文件中的namespace，设置为对应Mapper接口的全限定名称，
+        Mapper文件中的操作元素的id，设置为对应Mapper接口中的方法名称 -> 于是Mapper.xml文件的namespace + id即为对应Mapper的方法的全限定名称）
+    原理：动态代理
+    模拟动态代理->新建MyMapperProxy类

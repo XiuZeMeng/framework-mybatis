@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mxz.mybatis.mapper.StudentMapper">
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into t_student (name, sex) values (#{name}, #{sex})
+    </insert>
+
+    <update id="update">
+        update t_student set name = #{name}, sex = #{sex} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from t_student where id = #{id}
+    </delete>
+
+    <select id="get" parameterType="java.lang.Long" resultType="Student">
+        select id, name, sex from t_student where id = #{id}
+    </select>
+
+    <select id="listAll" resultType="Student">
+        select id, name, sex from t_student
+    </select>
+</mapper>

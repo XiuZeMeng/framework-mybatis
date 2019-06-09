@@ -50,5 +50,6 @@
     <mappers>
         <mapper resource="com/mxz/mybatis/mapper/UserMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/UserNewMapper.xml"/>
+        <mapper resource="com/mxz/mybatis/mapper/StudentMapper.xml"/>
     </mappers>
 </configuration>
