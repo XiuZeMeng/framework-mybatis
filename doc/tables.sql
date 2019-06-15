@@ -18,3 +18,10 @@ CREATE TABLE `t_student` (
 `sex`  tinyint(2) NOT NULL COMMENT '性别：1男、2女' ,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `t_client` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id主键',
+  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `password` varchar(50) NOT NULL COMMENT '密码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

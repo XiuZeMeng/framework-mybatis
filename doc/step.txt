@@ -106,6 +106,38 @@
         （Mapper组件：Mapper接口 + Mapper文件）
         （Mapper接口和Mapper文件，应该放到同一个包中）
         （Mapper文件中的namespace，设置为对应Mapper接口的全限定名称，
-        Mapper文件中的操作元素的id，设置为对应Mapper接口中的方法名称 -> 于是Mapper.xml文件的namespace + id即为对应Mapper的方法的全限定名称）
+        Mapper文件中的操作元素的id，设置为对应Mapper接口中的方法名称 -> 于是Mapper.xml文件的namespace + id即为对应Mapper接口方法的全限定名称）
     原理：动态代理
     模拟动态代理->新建MyMapperProxy类
+
+十三、Mybatis的参数处理
+    解决Mybatis只能接收一个参数的问题：
+    Object selectOne(String statement, Object parameterObject)
+        方式一：封装POJO（简单的Java对象），缺点：需要定义很多的JaveBean，很烦
+        方式二：封装Map对象，Map的key好比是JavaBean的属性名称，Map的value好比是JavaBean的属性值，麻烦，每次都要创建Map
+        方法三：使用@Param注解，底层原理就是方式二，Mybatis帮助我们使用Map来封装。
+
+十四、Mybatis的#和$
+    打印SQL的区别：
+        使用#：
+            Preparing: select id, username, password from t_client where username = ? and password = ?
+            Parameters: admin(String), 123456(String)
+        使用#：
+            Preparing: select id, username, password from t_client where username = admin and password = 123456
+            Parameters:
+        #和$符号的异同：
+            相同：都可以通过#和$来获取对象中的信息
+            不同：
+                使用#传递的参数会先转换为占位符？，再通过设置占位符参数的方法来设置值（统统会给值使用单引号''引起来）。
+                使用$传递的参数，直接把解析chuld数据作为SQL语句的一部分。
+            推论：
+                #：好比使用的PreparedStatement，不会导致SQL注入的问题，相对比较安全。
+                $：好比使用的Statement，可能会导致SQL注入问题，相对不安全。
+            如何选择：
+                1、如果需要设置占位符参数的地方，区别使用#，也就是SQL之后可以使用？的情况。
+                2、如果我们写的内容应该作为SQL的一部分，此时应该使用$，比如要排序，分组查询等。
+
+十四、Mybatis注解开发
+    开发和配置Mybatis框架：
+        方式一：使用XML配置，把SQL和映射写在XML文件中。（推荐）
+        方式二：使用注解配置，把SQL和映射写在Java代码中（Mapper接口）（不推荐）
