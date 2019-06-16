@@ -141,3 +141,5 @@
     开发和配置Mybatis框架：
         方式一：使用XML配置，把SQL和映射写在XML文件中。（推荐）
         方式二：使用注解配置，把SQL和映射写在Java代码中（Mapper接口）（不推荐）
+    新建StudentAnnotationMapper接口类，并添加到mybatis-config.xml文件中的mappers属性中：<mapper class="com.mxz.mybatis.mapper.StudentAnnotationMapper"/>；
+    新建AnnotationTest测试类；

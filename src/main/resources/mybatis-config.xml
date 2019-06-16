@@ -46,11 +46,12 @@
         </environment>
     </environments>
 
-    <!-- 关联映射文件-->
+    <!-- 关联 Mapper 映射文件/ Mapper 接口-->
     <mappers>
         <mapper resource="com/mxz/mybatis/mapper/UserMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/UserNewMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/ClientMapper.xml"/>
+        <mapper class="com.mxz.mybatis.mapper.StudentAnnotationMapper"/>
     </mappers>
 </configuration>
