@@ -52,6 +52,7 @@
         <mapper resource="com/mxz/mybatis/mapper/UserNewMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/StudentMapper.xml"/>
         <mapper resource="com/mxz/mybatis/mapper/ClientMapper.xml"/>
+        <mapper resource="com/mxz/mybatis/mapper/EmployeeMapper.xml"/>
         <mapper class="com.mxz.mybatis.mapper.StudentAnnotationMapper"/>
     </mappers>
 </configuration>

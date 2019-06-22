@@ -25,3 +25,12 @@ CREATE TABLE `t_client` (
   `password` varchar(50) NOT NULL COMMENT '密码',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `t_employee` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id主键',
+  `name` varchar(50) NOT NULL COMMENT '姓名',
+  `sn` varchar(50) NOT NULL COMMENT '编号',
+  `salary` decimal(8,2) NOT NULL COMMENT '工资',
+  `deptId` int(10) DEFAULT NULL COMMENT '部门id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8

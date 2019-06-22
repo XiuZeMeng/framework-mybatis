@@ -31,4 +31,9 @@ public class MybatisUtil {
     public static SqlSession getSession(){
         return factory.openSession();
     }
+
+    // 返回一个mapper接口对象
+    public static <T> T getMapper(Class<T> mapperClass){
+        return getSession().getMapper(mapperClass);
+    }
 }

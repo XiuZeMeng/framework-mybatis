@@ -129,7 +129,7 @@
             相同：都可以通过#和$来获取对象中的信息
             不同：
                 使用#传递的参数会先转换为占位符？，再通过设置占位符参数的方法来设置值（统统会给值使用单引号''引起来）。
-                使用$传递的参数，直接把解析chuld数据作为SQL语句的一部分。
+                使用$传递的参数，直接把解析数据作为SQL语句的一部分。
             推论：
                 #：好比使用的PreparedStatement，不会导致SQL注入的问题，相对比较安全。
                 $：好比使用的Statement，可能会导致SQL注入问题，相对不安全。
@@ -137,9 +137,35 @@
                 1、如果需要设置占位符参数的地方，区别使用#，也就是SQL之后可以使用？的情况。
                 2、如果我们写的内容应该作为SQL的一部分，此时应该使用$，比如要排序，分组查询等。
 
-十四、Mybatis注解开发
+十五、Mybatis注解开发
     开发和配置Mybatis框架：
         方式一：使用XML配置，把SQL和映射写在XML文件中。（推荐）
         方式二：使用注解配置，把SQL和映射写在Java代码中（Mapper接口）（不推荐）
     新建StudentAnnotationMapper接口类，并添加到mybatis-config.xml文件中的mappers属性中：<mapper class="com.mxz.mybatis.mapper.StudentAnnotationMapper"/>；
     新建AnnotationTest测试类；
+
+十六、动态SQL之if和choose
+    1、新建Employee等相关类
+
+十七、动态SQL之where和set以及trim
+    1、where元素：判断查询条件是否有WHERE关键字，如果没有，则在第一个查询条件之前，插入一个WHERE关键字。
+                 如果发现查询条件以AND 或者 OR开头，也会把第一个查询条件的AND |OR 替换成WHERE。
+                 （该元素解决不用写WHERE 1 = 1 的查询条件，而且WHERE 1 = 1 有可能会影响性能，不能使用索引）
+    2、set元素：和where元素类型，根据set中的SQL动态地去掉最后的一个逗号，并在最前面加上一个set关键字，
+               如果set元素下没有内容，会自动忽略set语句。
+    3、trim元素：<trim prefix="" prefixOverrides="" suffix="" suffixOverrides="">
+                    ...
+                </trim>
+                前提：如果trim元素包含内容，则返回一个字符串：
+                    prefix：在这个字符串之前插入prefix属性值。
+                        prefixOverrides：并且如果字符串的内容以prefixOverrides的内容开头（可以包含管道符号|），那么使用prefix属性值替换内容的开头。
+                    suffix：在这个字符串之后插入suffix属性值。
+                        suffixOverrides：并且字符串的内容以suffixOverrides中的内容结尾（可以包含管道符号|），那么使用suffix属性值替换内容的结尾。
+    改造where元素：如果条件以AND或OR开头，就应该替换成WHERE
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            ...
+        </trim>
+    改造set元素：在所有的条件之前插入一个set关键字，把最后一个条件后面的逗号去掉
+            <trim prefix="SET" suffixOverrides=",">
+                ...
+            </trim>

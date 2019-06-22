@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mxz.mybatis.mapper.EmployeeMapper">
+
+    <select id="selectByMinSally" resultType="com.mxz.mybatis.domain.Employee">
+        select id, name, sn, salary, deptId
+        from t_employee
+        <if test="minSalary != null">
+            where salary >= #{minSalary}
+        </if>
+    </select>
+
+    <select id="selectByMinMaxSally" resultType="com.mxz.mybatis.domain.Employee">
+<!--        select id, name, sn, salary, deptId-->
+<!--        from t_employee-->
+<!--        where 1 = 1-->
+<!--        <if test="minSalary != null">-->
+<!--            and salary >= #{minSalary}-->
+<!--        </if>-->
+<!--        <if test="maxSalary != null">-->
+<!--            and salary &lt;= #{maxSalary}-->
+<!--        </if>-->
+
+        select id, name, sn, salary, deptId
+        from t_employee
+        <where>
+            <if test="minSalary != null">
+                and salary >= #{minSalary}
+            </if>
+            <if test="maxSalary != null">
+                and salary &lt;= #{maxSalary}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByDeptId" resultType="com.mxz.mybatis.domain.Employee">
+        select id, name, sn, salary, deptId
+        from t_employee
+        where 1 = 1
+
+<!--        <if test="deptId > 0">-->
+<!--            and deptId = #{deptId}-->
+<!--        </if>-->
+
+        <choose>
+            <when test="deptId > 0">
+                and deptId = #{deptId}
+            </when>
+            <otherwise>
+                and deptId is not null
+            </otherwise>
+        </choose>
+    </select>
+</mapper>
