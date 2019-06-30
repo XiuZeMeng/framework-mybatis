@@ -54,4 +54,72 @@
             </otherwise>
         </choose>
     </select>
+
+    <delete id="batchDelete">
+        <!-- delete from t_employee where id in (10,20,30) -->
+
+        delete from t_employee where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="batchSave">
+        <!-- insert into t_employee (name, sn, salary, deptId) values ('A', 'AA', 100, 100),
+                                                                ('B', 'BB', 200, 200),
+                                                                ('C', 'CC', 300, 300) -->
+        insert into t_employee (name, sn, salary, deptId) values
+        <foreach collection="ems" item="e" separator=",">
+            (#{e.name}, #{e.sn}, #{e.salary}, #{e.deptId})
+        </foreach>
+    </insert>
+
+    <!-- 多个查询共同使用的SQL -->
+    <sql id="base_where">
+        <where>
+            <if test="keyword != null">
+                <!-- and (name like concat('%', #{keyword}, '%') or sn like concat('%', #{keyword}, '%'))-->
+                <bind name="keywordLike" value="'%' + keyword + '%'"/>
+                and (name like #{keywordLike} or sn like #{keywordLike})
+            </if>
+            <if test="minSalary != null">
+                and salary >= #{minSalary}
+            </if>
+            <if test="maxSalary != null">
+                and salary &lt;= #{maxSalary}
+            </if>
+            <if test="deptId > 0">
+                and deptId = #{deptId}
+            </if>
+        </where>
+        </sql>
+
+    <!-- 查询结果集 -->
+    <select id="queryForList" resultType="Employee">
+        select id, name, sn, salary, deptId from t_employee
+<!--        <where>-->
+<!--            <if test="keyword != null">-->
+<!--                and (name like concat('%', #{keyword}, '%') or sn like concat('%', #{keyword}, '%'))-->
+<!--            </if>-->
+<!--            <if test="minSalary != null">-->
+<!--                and salary >= #{minSalary}-->
+<!--            </if>-->
+<!--            <if test="maxSalary != null">-->
+<!--                and salary &lt;= #{maxSalary}-->
+<!--            </if>-->
+<!--            <if test="deptId > 0">-->
+<!--                and deptId = #{deptId}-->
+<!--            </if>-->
+<!--        </where>-->
+            <include refid="base_where"/>
+            <if test="pageSize > 0">
+                limit #{start}, #{pageSize}
+            </if>
+    </select>
+
+    <!-- 查询结果总数 -->
+    <select id="queryForCount" resultType="int">
+        select count(1) from t_employee
+        <include refid="base_where"/>
+    </select>
 </mapper>

@@ -169,3 +169,24 @@
             <trim prefix="SET" suffixOverrides=",">
                 ...
             </trim>
+
+十七、动态SQL之foreach
+    1、foreach：动态 SQL 的另外一个常用的操作需求是对一个集合进行遍历，通常是在构建 IN 条件语句的时候。
+    2、<foreach item="item" index="index" collection="list"
+            open="(" separator="," close=")">
+              #{item}
+        </foreach>
+        foreach元素：
+            collection属性：表示对哪一个集合或数组做迭代，如果参数是数组类型，此时Map的key为array，如果参数是list类型，此时的Map的key为list，我们可以在参数上使用Param注解，规定Map中的key是什么。
+            item属性：被迭代的每一个元素的变量。
+            index属性：迭代的索引。
+            open属性：在迭代集合之前，拼接什么符号。
+            close属性：在迭代集合之后，拼接什么符号。
+            separator属性：在迭代元素时，每一个元素之间是有什么符号分隔开。
+
+十八、高级查询和分页查询（引出动态SQL的bind、sql、include元素）
+    1、查询结果总数
+    2、查询结果集
+        1）新建QO类
+        2）新建PageResult类
+        3）新建service层

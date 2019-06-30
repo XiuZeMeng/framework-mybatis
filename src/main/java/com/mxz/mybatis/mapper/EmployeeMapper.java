@@ -1,7 +1,7 @@
 package com.mxz.mybatis.mapper;
 
 import com.mxz.mybatis.domain.Employee;
-import com.mxz.mybatis.domain.Student;
+import com.mxz.mybatis.query.QueryObject;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -21,4 +21,13 @@ public interface EmployeeMapper {
                                        @Param("maxSalary")BigDecimal maxSalary);
 
     List<Employee> selectByDeptId(@Param("deptId")Integer deptId);
+
+//    void batchDelete(@Param("ids") int[] ids);
+    void batchDelete(@Param("ids") List<Integer> ids);
+
+    void batchSave(@Param("ems") List<Employee> employeeList);
+
+    List<Employee> queryForList(QueryObject qo);
+
+    int queryForCount(QueryObject qo);
 }
